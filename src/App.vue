@@ -1,32 +1,46 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+  <v-app>
+    <!-- ツールバー -->
+    <v-app-bar
+      app
+      color="green"
+      dark
+    >
+      <!-- タイトル -->
+      <v-toolbar-title>{{ appName }}</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <!-- テーブルアイコンのボタン -->
+      <v-btn icon to="/">
+        <v-icon>mdi-file-table-outline</v-icon>
+      </v-btn>
+      <!-- 歯車アイコンのボタン -->
+      <v-btn icon to="/settings">
+        <v-icon>mdi-cog</v-icon>
+      </v-btn>
+    </v-app-bar>
+
+    <v-main>
+      <v-container fluid>
+        <router-view />
+      </v-container>
+    </v-main>
+  </v-app>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import { mapState } from 'vuex'
 
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
+export default {
+  name: 'App',
+  data: () => ({
+    //
+  }),
+  computed: mapState({
+    appName: state => state.settings.appName
+  }),
+  // Appインスタンス生成前に一度だけ実行されます
+  beforeCreate() {
+    this.$store.dispatch('loadSettings')
+  }
+};
+</script>
