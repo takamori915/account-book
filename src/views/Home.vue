@@ -124,8 +124,6 @@ import DeleteDialog from '../components/deleteDialog.vue'
       const month = ('0' + (today.getMonth() + 1)).slice(-2);
 
       return {
-        /**  ローディング状態 */
-        loading: false,
         /** 月選択メニューの状態 */
         menu: false,
         /** 検索文字 */
@@ -143,7 +141,9 @@ import DeleteDialog from '../components/deleteDialog.vue'
     computed: {
       ...mapState({
         /** 家計簿データ */
-        abData: state => state.abData
+        abData: state => state.abData,
+        /** ローディング状態 */
+        loading: state => state.loading.fetch,
       }),
       /** テーブルヘッダ設定 */
       tableHeaders() {
@@ -190,13 +190,13 @@ import DeleteDialog from '../components/deleteDialog.vue'
         'fetchAbData'
       ]),
       /** 表示させるデータを更新します */
-      updateTable() {
+      async updateTable() {
         const yearMonth = this.yearMonth;
         const list = this.abData[yearMonth];
         if (list) {
           this.tableData = list
         } else {
-          this.fetchAbData({ yearMonth });
+          await this.fetchAbData({ yearMonth });
           this.tableData = this.abData[yearMonth];
         }
       },

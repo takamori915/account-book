@@ -49,7 +49,7 @@
       />
       <v-row class="mt-4">
         <v-spacer/>
-        <v-btn color="primary" :disabled="!valid" @click="onClickSave">保存"</v-btn>
+        <v-btn color="primary" :disabled="!valid" @click="onClickSave">保存</v-btn>
       </v-row>
     </v-form>
   </div>
