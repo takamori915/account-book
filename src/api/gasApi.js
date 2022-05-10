@@ -3,11 +3,10 @@ import axios from 'axios';
 
 // 共通のヘッダーを設定したaxiosのインスタンス作成
 const gasApi = axios.create({
-  header: { 'content-type': 'application/x-www-form-urlencoded'}
+  //header: { 'content-type': 'application/x-www-form-urlencoded'}
+  header: { 'content-type': 'text/plain'}
 })
-
-axios.defaults.withCredentials = true;
-gasApi.defaults.baseURL = 'https://script.google.com/macros'
+//gasApi.defaults.baseURL = 'https://script.google.com/macros'
 
 // response共通処理
 // errorが含まれていたらrejectする
@@ -24,8 +23,10 @@ gasApi.interceptors.response.use(res => {
  * APIのURLを設定します
  * @param {String} url
  */
+let apiUrl = ''
 const setUrl = url => {
-  gasApi.defaults.baseURL = url
+  //gasApi.defaults.baseURL = url
+  apiUrl = url
 }
 
 /**
@@ -43,10 +44,9 @@ const setAuthToken = token => {
  * @return {Promise}
 */
 const fetch = yearMonth => {
-  return gasApi.post('', {
+  return gasApi.post(apiUrl, {
     method: 'GET',
     authToken,
-    withCredentials: true,
     params: {
       yearMonth
     }
